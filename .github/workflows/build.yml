@@ -1,0 +1,31 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+name: Build, with maven
+
+on:
+  workflow_dispatch:
+  push:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v3
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - name: Build spigot
+        uses: SpraxDev/Action-SpigotMC@v3
+        with:
+          versions: 1.19 # --rev
+          generateSrc: false # --generate-source
+          generateDoc: false # --generate-docs
+          disableJavaCheck: false # --disable-java-check
+          remapped: true # --remapped
+          forceRun: false # Optional
+          threads: -1 # Optional
+          buildToolProvider: SpigotMC # Optional
+      - name: Build project with Maven
+        run: mvn --batch-mode --update-snapshots package

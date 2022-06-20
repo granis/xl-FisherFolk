@@ -1,0 +1,11 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/SchemaStore/schemastore/master/src/schemas/json/bukkit-plugin.json
+name: FisherFolk
+api-version: 1.19
+version: 1.1
+author: granis
+main: se.xtralarge.fisherfolk.Main
+softdepend: [WorldGuard]
+
+permissions:
+  fisherfolk.auto:
+    default: op
