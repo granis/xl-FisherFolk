@@ -16,8 +16,9 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+          cache: maven
       - name: Build spigot
-        uses: SpraxDev/Action-SpigotMC@v3
+        uses: SpraxDev/Action-SpigotMC@v4.0.0
         with:
           versions: 1.19 # --rev
           generateSrc: false # --generate-source
@@ -28,4 +29,13 @@ jobs:
           threads: -1 # Optional
           buildToolProvider: SpigotMC # Optional
       - name: Build project with Maven
-        run: mvn --batch-mode --update-snapshots package
+        run: mvn --batch-mode package
+      - name: Upload artifact
+        run: |
+          mkdir staging
+          rm target/*remapped*.jar
+          cp target/Fish*.jar staging
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Package
+          path: staging
