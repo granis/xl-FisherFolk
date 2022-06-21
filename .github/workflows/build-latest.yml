@@ -5,11 +5,10 @@ on:
       - "master"
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: ./.github/workflows/build.yml
-        with:
-          autotag: "latest"
-          prerelease: true
-          title: "Development build"
+  build_latest:
+    name: Build latest
+    uses: ./.github/workflows/build.yml
+    with:
+      autotag: "latest"
+      prerelease: true
+      title: "Development build"
