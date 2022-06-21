@@ -30,12 +30,15 @@ jobs:
           buildToolProvider: SpigotMC # Optional
       - name: Build project with Maven
         run: mvn --batch-mode package
-      - name: Upload artifact
+      - name: Delete remapped-jar
         run: |
-          mkdir staging
           rm target/*remapped*.jar
-          cp target/Fish*.jar staging
-      - uses: actions/upload-artifact@v3
+      - name: Release latest
+        uses: "marvinpinto/action-automatic-releases@latest"
         with:
-          name: Package
-          path: staging
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: true
+          title: "Development Build"
+          files: |
+            target/Fish*.jar
