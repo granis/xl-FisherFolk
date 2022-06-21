@@ -34,7 +34,7 @@ jobs:
           threads: -1 # Optional
           buildToolProvider: SpigotMC # Optional
       - name: Build project with Maven
-        run: mvn --batch-mode -Drevision=${VER} package
+        run: mvn --batch-mode -Drevision=${{ env.VER }} package
       - name: Delete remapped-jar
         run: |
           rm target/*remapped*.jar
