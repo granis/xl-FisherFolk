@@ -12,6 +12,10 @@ jobs:
     steps:
       - name: Checkout project
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Set version env to use
+        run: echo "VER=$(git describe --tags --match v*.*.* | cut -c 2-)" >> $GITHUB_ENV
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:
@@ -30,7 +34,7 @@ jobs:
           threads: -1 # Optional
           buildToolProvider: SpigotMC # Optional
       - name: Build project with Maven
-        run: mvn --batch-mode package
+        run: mvn --batch-mode -Drevision=${VER} package
       - name: Delete remapped-jar
         run: |
           rm target/*remapped*.jar
