@@ -1,0 +1,14 @@
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  build_latest:
+    name: Build release
+    uses: ./.github/workflows/build.yml
+    with:
+      autotag: ""
+      prerelease: false
+      title: ""
