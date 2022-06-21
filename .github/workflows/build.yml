@@ -1,11 +1,17 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 name: Build, with maven
-
 on:
-  workflow_dispatch:
-  push:
-    branches:
-      - "master"
+  workflow_call:
+    inputs:
+      autotag: # "latest" or null
+        required: true
+        type: string
+      prerelease: # true or false
+        required: true
+        type: boolean
+      title: # "Dev. build" or null
+        required: true
+        type: string
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -38,12 +44,12 @@ jobs:
       - name: Delete remapped-jar
         run: |
           rm target/*remapped*.jar
-      - name: Release latest
+      - name: Release
         uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "latest"
-          prerelease: true
-          title: "Development Build"
+          automatic_release_tag: ${{ inputs.autotag }}
+          prerelease: ${{ inputs.prerelease }}
+          title: ${{ inputs.title }}
           files: |
             target/Fish*.jar
